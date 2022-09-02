@@ -1,0 +1,36 @@
+---
+import TwitterIcon from '../assets/svg/twitter.astro';
+import GithubIcon from '../assets/svg/github.astro';
+import InstagramIcon from '../assets/svg/instagram.astro';
+import LinkedInIcon from '../assets/svg/linkedin.astro';
+import MediumIcon from '../assets/svg/medium.astro';
+import StackOverflowIcon from '../assets/svg/stack-overflow.astro';
+import EmailIcon from '../assets/svg/email.astro';
+---
+
+<div class='flex items-center space-x-4'>
+  {
+    [
+      { Icon: TwitterIcon, link: 'https://twitter.com/manan__joshi' },
+      { Icon: GithubIcon, link: 'https://github.com/manan30' },
+      {
+        Icon: InstagramIcon,
+        link: 'https://www.instagram.com/manan__joshi'
+      },
+      {
+        Icon: LinkedInIcon,
+        link: 'https://www.linkedin.com/in/mananjoshi1741/'
+      },
+      {
+        Icon: StackOverflowIcon,
+        link: 'https://stackoverflow.com/users/5266912/manan-joshi'
+      },
+      { Icon: MediumIcon, link: 'https://medium.com/@Manan_30' },
+      { Icon: EmailIcon, link: 'mailto:mananjoshi1995@gmail.com' }
+    ].map(({ Icon, link }) => (
+      <a class='h-4 w-4 hover:text-orange-600' href={link}>
+        <Icon />
+      </a>
+    ))
+  }
+</div>

@@ -1,0 +1,15 @@
+---
+import Socials from './Socials.astro';
+---
+
+<footer
+  class='flex w-full flex-col items-center py-4 text-primary transition-all delay-75 ease-in-out dark:text-primary-light md:flex-row'
+>
+  <span class='mb-3 md:mb-0'>
+    <a href='https://mananjoshi.me'>Manan Joshi</a> &#169;{' '}
+    {new Intl.DateTimeFormat('en-US', { year: 'numeric' }).format(Date.now())}
+  </span>
+  <div class='md:ml-auto'>
+    <Socials />
+  </div>
+</footer>
