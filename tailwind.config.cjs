@@ -14,7 +14,8 @@ module.exports = {
           DEFAULT: colors.gray['700'],
           light: colors.gray['50']
         }
-      }
+      },
+      fontFamily: { sans: ['Rubik', ...defaultTheme.fontFamily.sans] }
     }
   },
   plugins: []
