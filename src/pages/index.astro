@@ -1,5 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getProfileData } from '../services/contentful';
+
+const profileData = await getProfileData();
 ---
 
-<BaseLayout title='Home | Manan Joshi' />
+<BaseLayout title='Home | Manan Joshi'>
+  <pre>{JSON.stringify(profileData, null, 2)}</pre>
+</BaseLayout>
