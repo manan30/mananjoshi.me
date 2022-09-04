@@ -1,13 +1,37 @@
+---
+const { url } = Astro;
+
+const links = [
+  { text: 'Home', href: '/', highlighted: url.pathname === '/' },
+  { text: 'Work', href: '/work', highlighted: url.pathname === '/work' },
+  { text: 'Blog', href: '/blog', highlighted: url.pathname === '/blog' },
+  {
+    text: 'Projects',
+    href: '/projects',
+    highlighted: url.pathname === '/projects'
+  }
+];
+---
+
 <header
-  class='hidden w-full font-[430] md:flex md:items-center md:pt-6 md:pb-4'
+  class='hidden w-full font-normal md:flex md:items-center md:pt-6 md:pb-4'
 >
   <nav
-    class='flex items-center space-x-4 text-lg text-primary transition-colors delay-75 ease-in-out dark:text-primary-light'
+    class='flex items-center space-x-4 text-lg text-primary transition-colors delay-75 ease-in-out'
   >
-    <a class='hover:text-orange-600' href='/'>Home</a>
-    <a class='hover:text-orange-600' href='/work'>Work</a>
-    <a class='hover:text-orange-600' href='/blog'>Blog</a>
-    <a class='hover:text-orange-600' href='/projects'>Projects</a>
-    <a class='hover:text-orange-600' href='/education'>Education</a>
+    {
+      links.map((link) => (
+        <a
+          class={`hover:text-orange-600 ${
+            link.highlighted
+              ? 'dark:text-primary-light font-semibold'
+              : 'font-normal dark:text-slate-400'
+          }`}
+          href={link.href}
+        >
+          {link.text}
+        </a>
+      ))
+    }
   </nav>
 </header>
