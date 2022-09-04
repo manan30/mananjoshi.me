@@ -11,8 +11,8 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: colors.gray['700'],
-          light: colors.gray['50']
+          dark: colors.gray['900'],
+          light: colors.slate['200']
         }
       },
       fontFamily: { sans: ['Rubik', ...defaultTheme.fontFamily.sans] }

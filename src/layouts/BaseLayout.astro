@@ -20,12 +20,12 @@ const { title } = Astro.props;
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class='bg-gray-50 transition-colors ease-in-out dark:bg-slate-700'>
+  <body class='transition-colors ease-in-out dark:bg-primary-dark'>
     <div
       class='mx-auto h-screen w-full px-6 sm:max-w-lg md:max-w-xl lg:max-w-3xl'
     >
       <Header />
-      <main class='h-[calc(100%-128px)]'>
+      <main class='min-h-[calc(100%-4rem)] md:min-h-[calc(100%-128px)]'>
         <slot />
       </main>
       <Footer />
