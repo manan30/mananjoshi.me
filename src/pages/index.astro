@@ -23,5 +23,5 @@ const { fields: profileData } = await getProfileData();
       src={profileData.picture.fields.file.url}
     />
   </div>
-  <p class='!mt-6 text-gray-400'>{profileData.bio}</p>
+  <p class='!mt-6 text-gray-400 text-sm md:text-base'>{profileData.bio}</p>
 </BaseLayout>
