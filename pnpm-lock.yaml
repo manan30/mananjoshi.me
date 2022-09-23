@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@astrojs/partytown': ^1.0.0
   '@astrojs/tailwind': ^1.0.0
   '@fontsource/rubik': ^4.5.11
   '@typescript-eslint/eslint-plugin': ^5.36.1
@@ -22,6 +23,7 @@ dependencies:
   contentful: 9.1.34
 
 devDependencies:
+  '@astrojs/partytown': 1.0.0
   '@astrojs/tailwind': 1.0.0
   '@typescript-eslint/eslint-plugin': 5.36.1_lbwfnm54o3pmr3ypeqp3btnera
   '@typescript-eslint/parser': 5.36.1_yqf6kl63nyoq5megxukfnom5rm
@@ -108,6 +110,13 @@ packages:
       micromark-util-types: 1.0.2
       uvu: 0.5.6
       vfile-message: 3.1.2
+    dev: true
+
+  /@astrojs/partytown/1.0.0:
+    resolution: {integrity: sha512-rco5tOtBmmZ7mpoHFyARrMb5yKVJPwLghN9lFvl+R867E+0xRp6ZzP5o7pMySgZCUq093qzd1bkAsVS2I/8gpg==}
+    dependencies:
+      '@builder.io/partytown': 0.4.5
+      mrmime: 1.0.1
     dev: true
 
   /@astrojs/prism/1.0.1:
@@ -392,6 +401,11 @@ packages:
       '@babel/helper-string-parser': 7.18.10
       '@babel/helper-validator-identifier': 7.18.6
       to-fast-properties: 2.0.0
+    dev: true
+
+  /@builder.io/partytown/0.4.5:
+    resolution: {integrity: sha512-HcHlmMYSpOxfJ0lFVxgZrvgIjz1Q8knlGuWkBpvjIp68j+xVWg969+sn7BCfyKhcGaYlnVOY/CEBHapQBcl0jw==}
+    hasBin: true
     dev: true
 
   /@emmetio/abbreviation/2.2.3:
