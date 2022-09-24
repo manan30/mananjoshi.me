@@ -1,8 +1,10 @@
 ---
+import Project from '../components/Project.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getProfileData } from '../services/contentful';
+import { getProfileData, getProjectsData } from '../services/contentful';
 
 const { fields: profileData } = await getProfileData();
+const projectsData = await getProjectsData();
 ---
 
 <BaseLayout title='Home | Manan Joshi'>
@@ -23,5 +25,15 @@ const { fields: profileData } = await getProfileData();
       src={profileData.picture.fields.file.url}
     />
   </div>
+
   <p class='!mt-6 text-gray-400 text-sm md:text-base'>{profileData.bio}</p>
+
+  <section class='mt-12'>
+    <h3 class='text-primary-light font-semibold text-xl md:text-3xl'>
+      Recent Projects
+    </h3>
+    <div class='grid grid-cols-3 gap-6 mt-4'>
+      {projectsData.map((project) => <Project {...project.fields} />)}
+    </div>
+  </section>
 </BaseLayout>
