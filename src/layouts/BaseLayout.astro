@@ -18,13 +18,17 @@ const { title } = Astro.props;
     <meta name='viewport' content='width=device-width' />
     <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
     <meta name='generator' content={Astro.generator} />
-    <script
-      async
-      defer
-      type='text/partytown'
-      data-website-id='80225d33-4b8f-401f-a8f6-dab137167321'
-      src='https://wave-studios-tracking.up.railway.app/umami.js'
-    ></script>
+    {
+      import.meta.env.PROD ? (
+        <script
+          async
+          defer
+          type='text/partytown'
+          data-website-id='80225d33-4b8f-401f-a8f6-dab137167321'
+          src='https://wave-studios-tracking.up.railway.app/umami.js'
+        />
+      ) : null
+    }
     <title>{title}</title>
   </head>
   <body
