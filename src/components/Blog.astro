@@ -1,0 +1,12 @@
+---
+import type { BlogsData } from '../services/contentful/blogsData';
+import DashboardCard from './DashboardCard.astro';
+
+export type Props = BlogsData;
+
+const { title, slug } = Astro.props;
+---
+
+<DashboardCard>
+  <h4 class='text-primary-light text-xl'>{title}</h4>
+</DashboardCard>
