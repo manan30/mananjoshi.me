@@ -48,18 +48,18 @@ const blogsData = await getBlogsData();
 
   <p class='!mt-6 text-gray-400 text-sm md:text-base'>{profileData.bio}</p>
 
-  <section class='mt-12'>
+  <section class='mt-8 md:mt-12'>
     <h3 class='text-primary-light font-semibold text-xl md:text-3xl'>
       Recent Projects
     </h3>
-    <div class='grid grid-cols-3 gap-6 mt-4'>
+    <div class='grid md:grid-cols-3 gap-6 mt-4'>
       {projectsData.map((project) => <Project {...project.fields} />)}
     </div>
   </section>
 
-  <section class='mt-12'>
+  <section class='mt-8 md:mt-12'>
     <h3 class='text-primary-light font-semibold text-xl md:text-3xl'>Blogs</h3>
-    <div class='grid grid-cols-3 gap-6 mt-4'>
+    <div class='grid md:grid-cols-3 gap-6 mt-4'>
       {
         blogsData.map((blog) => (
           <a href={`blog/${blog.fields.slug}`}>

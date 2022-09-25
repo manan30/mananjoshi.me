@@ -4,6 +4,7 @@ specifiers:
   '@astrojs/partytown': ^1.0.0
   '@astrojs/tailwind': ^1.0.0
   '@fontsource/rubik': ^4.5.11
+  '@tailwindcss/line-clamp': ^0.4.2
   '@typescript-eslint/eslint-plugin': ^5.36.1
   '@typescript-eslint/parser': ^5.36.1
   astro: ^1.1.1
@@ -25,6 +26,7 @@ dependencies:
 devDependencies:
   '@astrojs/partytown': 1.0.0
   '@astrojs/tailwind': 1.0.0
+  '@tailwindcss/line-clamp': 0.4.2
   '@typescript-eslint/eslint-plugin': 5.36.1_lbwfnm54o3pmr3ypeqp3btnera
   '@typescript-eslint/parser': 5.36.1_yqf6kl63nyoq5megxukfnom5rm
   astro: 1.1.1
@@ -571,6 +573,12 @@ packages:
     dependencies:
       '@proload/core': 0.3.2
       tsm: 2.2.2
+    dev: true
+
+  /@tailwindcss/line-clamp/0.4.2:
+    resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
     dev: true
 
   /@types/acorn/4.0.6:

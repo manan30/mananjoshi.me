@@ -29,8 +29,12 @@ const links = Object.entries(iconMappings)
 ---
 
 <DashboardCard>
-  <h4 class='text-primary-light text-xl'>{title}</h4>
-  <p class='text-slate-400 text-sm mt-4 flex-1'>{description}</p>
+  <h4 class='text-primary-light text-lg md:text-xl'>{title}</h4>
+  <p
+    class='text-slate-400 text-xs md:text-sm mt-2 md:mt-4 flex-1 lg:line-clamp-none line-clamp-4'
+  >
+    {description}
+  </p>
   <div class='mt-auto flex space-x-2 justify-end w-full'>
     {
       links.map(({ Icon, link }) => (

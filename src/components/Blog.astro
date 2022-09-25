@@ -4,9 +4,13 @@ import DashboardCard from './DashboardCard.astro';
 
 export type Props = BlogsData;
 
-const { title, slug } = Astro.props;
+const { title } = Astro.props;
 ---
 
 <DashboardCard>
-  <h4 class='text-primary-light text-xl'>{title}</h4>
+  <h4
+    class='text-primary-light text-lg line-clamp-3 md:text-xl lg:line-clamp-none'
+  >
+    {title}
+  </h4>
 </DashboardCard>
