@@ -2,17 +2,11 @@
 import TwitterIcon from '../assets/svg/twitter.astro';
 import GithubIcon from '../assets/svg/github.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Project from '../components/Home/Project.astro';
-import Article from '../components/Home/Article.astro';
-import {
-  getProfileData,
-  getProjectsData,
-  getDashboardArticles
-} from '../services/contentful';
+import Projects from '../components/Home/Projects.astro';
+import Articles from '../components/Home/Articles.astro';
+import { getProfileData } from '../services/contentful';
 
 const { fields: profileData } = await getProfileData();
-const projectsData = await getProjectsData();
-const articlesData = await getDashboardArticles();
 ---
 
 <BaseLayout title='Home'>
@@ -49,26 +43,10 @@ const articlesData = await getDashboardArticles();
   <p class='!mt-6 text-gray-400 text-sm md:text-base'>{profileData.bio}</p>
 
   <section class='mt-8 md:mt-12'>
-    <h3 class='text-primary-light font-semibold text-xl md:text-3xl'>
-      Recent Projects
-    </h3>
-    <div class='grid md:grid-cols-3 gap-6 mt-4'>
-      {projectsData.map((project) => <Project {...project.fields} />)}
-    </div>
+    <Projects />
   </section>
 
   <section class='mt-8 md:mt-12'>
-    <h3 class='text-primary-light font-semibold text-xl md:text-3xl'>
-      Articles
-    </h3>
-    <div class='grid md:grid-cols-3 gap-6 mt-4'>
-      {
-        articlesData.map((article) => (
-          <a href={`article/${article.fields.slug}`}>
-            <Article {...article.fields} />
-          </a>
-        ))
-      }
-    </div>
+    <Articles />
   </section>
 </BaseLayout>
