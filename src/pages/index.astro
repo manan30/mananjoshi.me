@@ -2,20 +2,20 @@
 import TwitterIcon from '../assets/svg/twitter.astro';
 import GithubIcon from '../assets/svg/github.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Project from '../components/Project.astro';
-import Blog from '../components/Blog.astro';
+import Project from '../components/Home/Project.astro';
+import Article from '../components/Home/Article.astro';
 import {
   getProfileData,
   getProjectsData,
-  getBlogsData
+  getDashboardArticles
 } from '../services/contentful';
 
 const { fields: profileData } = await getProfileData();
 const projectsData = await getProjectsData();
-const blogsData = await getBlogsData();
+const articlesData = await getDashboardArticles();
 ---
 
-<BaseLayout title='Home | Manan Joshi'>
+<BaseLayout title='Home'>
   <div
     class='flex flex-col-reverse justify-start md:flex-row md:items-center mt-16'
   >
@@ -58,12 +58,14 @@ const blogsData = await getBlogsData();
   </section>
 
   <section class='mt-8 md:mt-12'>
-    <h3 class='text-primary-light font-semibold text-xl md:text-3xl'>Blogs</h3>
+    <h3 class='text-primary-light font-semibold text-xl md:text-3xl'>
+      Articles
+    </h3>
     <div class='grid md:grid-cols-3 gap-6 mt-4'>
       {
-        blogsData.map((blog) => (
-          <a href={`blog/${blog.fields.slug}`}>
-            <Blog {...blog.fields} />
+        articlesData.map((article) => (
+          <a href={`article/${article.fields.slug}`}>
+            <Article {...article.fields} />
           </a>
         ))
       }

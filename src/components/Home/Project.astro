@@ -1,10 +1,10 @@
 ---
-import GithubIcon from '../assets/svg/github.astro';
-import BlogIcon from '../assets/svg/blog.astro';
-import LinkIcon from '../assets/svg/link.astro';
-import NPMIcon from '../assets/svg/npm.astro';
-import DashboardCard from './DashboardCard.astro';
-import type { ProjectsData } from '../services/contentful/projectsData';
+import GithubIcon from '../../assets/svg/github.astro';
+import BlogIcon from '../../assets/svg/blog.astro';
+import LinkIcon from '../../assets/svg/link.astro';
+import NPMIcon from '../../assets/svg/npm.astro';
+import Card from './Card.astro';
+import type { ProjectsData } from '../../services/contentful/projectsData';
 
 export type Props = ProjectsData;
 
@@ -28,7 +28,7 @@ const links = Object.entries(iconMappings)
 }[];
 ---
 
-<DashboardCard>
+<Card>
   <h4 class='text-primary-light text-lg md:text-xl'>{title}</h4>
   <p
     class='text-slate-400 text-xs md:text-sm mt-2 md:mt-4 flex-1 lg:line-clamp-none line-clamp-4'
@@ -44,4 +44,4 @@ const links = Object.entries(iconMappings)
       ))
     }
   </div>
-</DashboardCard>
+</Card>

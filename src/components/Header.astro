@@ -4,7 +4,11 @@ const { url } = Astro;
 const links = [
   { text: 'Home', href: '/', highlighted: url.pathname === '/' },
   { text: 'Journey', href: '/journey', highlighted: url.pathname === '/work' },
-  { text: 'Blog', href: '/blog', highlighted: url.pathname === '/blog' },
+  {
+    text: 'Articles',
+    href: '/articles',
+    highlighted: url.pathname === '/articles'
+  },
   {
     text: 'Projects',
     href: '/projects',
