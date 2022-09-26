@@ -1,0 +1,66 @@
+---
+import GithubIcon from '../../assets/svg/github.astro';
+import BlogIcon from '../../assets/svg/blog.astro';
+import LinkIcon from '../../assets/svg/link.astro';
+import NPMIcon from '../../assets/svg/npm.astro';
+import Card from './Card.astro';
+import { getProjectsData } from '../../services/contentful';
+import SectionHeader from './SectionHeader.astro';
+
+const projectsData = await getProjectsData();
+
+const iconMappings = {
+  githubURL: GithubIcon,
+  blogURL: BlogIcon,
+  deploymentURL: LinkIcon,
+  packageURL: NPMIcon
+};
+
+const getLinks = (links: { [key in keyof typeof iconMappings]?: string }) => {
+  return Object.entries(links)
+    .map(([key, value]) => {
+      if (value)
+        return {
+          Icon: iconMappings[key as keyof typeof iconMappings],
+          link: value
+        };
+    })
+    .filter(Boolean) as {
+    Icon: (props: Record<string, unknown>) => unknown;
+    link: string;
+  }[];
+};
+---
+
+<SectionHeader title='Recent Projects' link='projects' />
+<div class='grid md:grid-cols-3 gap-6 mt-4'>
+  {
+    projectsData.map(({ fields: project }) => {
+      const links = getLinks({
+        githubURL: project.githubURL,
+        blogURL: project.blogURL,
+        deploymentURL: project.deploymentURL,
+        packageURL: project.packageURL
+      });
+
+      return (
+        <Card>
+          <h4 class='text-primary-light text-lg md:text-xl'>{project.title}</h4>
+          <p class='lg:line-clamp-none line-clamp-4 mt-2 flex-1 text-xs text-slate-400 md:mt-4 md:text-sm'>
+            {project.description}
+          </p>
+          <div class='mt-auto flex w-full justify-end space-x-2'>
+            {links.map(({ Icon, link }) => (
+              <a
+                class='text-primary-light h-4 w-4 hover:text-orange-600'
+                href={link}
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
+        </Card>
+      );
+    })
+  }
+</div>
