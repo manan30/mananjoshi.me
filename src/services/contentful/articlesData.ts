@@ -11,7 +11,7 @@ export async function getDashboardArticles() {
     content_type: 'blogPost',
     limit: 3,
     order: '-sys.createdAt',
-    select: 'fields.title,fields.readTime'
+    select: 'fields.title,fields.readTime,sys.createdAt'
   });
 
   return data.items;

@@ -9,12 +9,15 @@ const articlesData = await getDashboardArticles();
 <SectionHeader title='Articles' link='articles' />
 <div class='grid md:grid-cols-3 gap-6 mt-4'>
   {
-    articlesData.map(({ fields: article }) => (
+    articlesData.map(({ fields: article, sys }) => (
       <a href={`article/${article.slug}`}>
         <Card>
-          <h4 class='text-primary-light line-clamp-3 lg:line-clamp-none text-lg md:text-xl'>
+          <h4 class='text-primary-light line-clamp-3 md:line-clamp-4 text-lg md:text-xl'>
             {article.title}
           </h4>
+          <div class='mt-auto mr-2 flex w-full items-center justify-end space-x-2 text-sm text-gray-400'>
+            <span class='pl-2'>{article.readTime} min read</span>
+          </div>
         </Card>
       </a>
     ))
