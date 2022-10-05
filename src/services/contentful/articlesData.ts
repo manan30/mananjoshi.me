@@ -2,12 +2,15 @@ import { contentfulClient } from './client';
 
 export type ArticlesData = {
   title: string;
-  slug?: string;
+  slug: string;
   readTime?: number;
+  excerpt: string;
 };
 
 export async function getDashboardArticles() {
-  const data = await contentfulClient.getEntries<ArticlesData>({
+  const data = await contentfulClient.getEntries<
+    Pick<ArticlesData, 'readTime' | 'slug' | 'title'>
+  >({
     content_type: 'blogPost',
     limit: 3,
     order: '-sys.createdAt',
@@ -17,10 +20,9 @@ export async function getDashboardArticles() {
   return data.items;
 }
 
-export async function getAllArticles(params?: { limit?: number }) {
+export async function getAllArticles() {
   const data = await contentfulClient.getEntries<ArticlesData>({
     content_type: 'blogPost',
-    limit: params?.limit ?? 3,
     order: '-sys.createdAt'
   });
 

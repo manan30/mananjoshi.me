@@ -1,5 +1,28 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllArticles } from '../../services/contentful';
+
+const articles = await getAllArticles();
 ---
 
-<BaseLayout title='Articles'>Articles</BaseLayout>
+<BaseLayout title='Articles'>
+  <div class='mt-8 flex flex-col space-y-4'>
+    <h1 class='text-5xl dark:text-primary-light font-semibold'>Articles</h1>
+    {
+      articles.map(({ fields: article }) => {
+        return (
+          <article class='transtion rounded-md p-3 transition-shadow duration-300 hover:shadow-lg hover:shadow-orange-500'>
+            <a href={`/article/${article.slug}`}>
+              <h2 class='dark:text-primary-light mb-1 text-xl'>
+                {article.title}
+              </h2>
+            </a>
+            <p class='line-clamp-3 md:line-clamp-4 dark:text-gray-400'>
+              {article.excerpt}
+            </p>
+          </article>
+        );
+      })
+    }
+  </div>
+</BaseLayout>
