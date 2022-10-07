@@ -9,17 +9,28 @@ const articles = await getAllArticles();
   <div class='mt-8 flex flex-col space-y-4'>
     <h1 class='text-5xl dark:text-primary-light font-semibold'>Articles</h1>
     {
-      articles.map(({ fields: article }) => {
+      articles.map(({ fields: article, sys }) => {
         return (
-          <article class='transtion rounded-md p-3 transition-shadow duration-300 hover:shadow-lg hover:shadow-orange-500'>
+          <article class='transtion rounded-md py-3'>
             <a href={`/article/${article.slug}`}>
               <h2 class='dark:text-primary-light mb-1 text-xl'>
                 {article.title}
               </h2>
             </a>
-            <p class='line-clamp-3 md:line-clamp-4 dark:text-gray-400'>
+            <p class='line-clamp-3 md:line-clamp-4 mb-2 dark:text-gray-400'>
               {article.excerpt}
             </p>
+            <div class='flex items-center space-x-1 text-[0.6rem] dark:text-stone-200'>
+              <p>
+                {Intl.DateTimeFormat('en-US', {
+                  dateStyle: 'medium'
+                }).format(new Date(sys.createdAt))}
+              </p>
+              <svg height='8' width='8' class='fill-current'>
+                <circle cx='4' cy='4' r='2' />
+              </svg>
+              <p>{article.readTime} min read</p>
+            </div>
           </article>
         );
       })
