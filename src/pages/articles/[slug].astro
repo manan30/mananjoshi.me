@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllArticlesSlug } from '../../services/contentful/articlesData';
+
+const { slug } = Astro.params;
+
+export async function getStaticPaths() {
+  const slugs = await getAllArticlesSlug();
+  return slugs.map(({ fields }) => ({ params: { slug: fields.slug } }));
+}
+---
+
+<BaseLayout title='Articles'>
+  {slug}
+</BaseLayout>

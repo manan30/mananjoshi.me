@@ -12,7 +12,7 @@ const articles = await getAllArticles();
       articles.map(({ fields: article, sys }) => {
         return (
           <article class='transtion rounded-md py-3'>
-            <a href={`/article/${article.slug}`}>
+            <a href={`/articles/${article.slug}`}>
               <h2 class='dark:text-primary-light mb-1 text-xl'>
                 {article.title}
               </h2>

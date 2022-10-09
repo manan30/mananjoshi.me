@@ -28,3 +28,12 @@ export async function getAllArticles() {
 
   return data.items;
 }
+
+export async function getAllArticlesSlug() {
+  const data = await contentfulClient.getEntries<Pick<ArticlesData, 'slug'>>({
+    content_type: 'blogPost',
+    select: 'fields.slug'
+  });
+
+  return data.items;
+}
