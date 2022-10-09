@@ -1,15 +1,24 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getAllArticlesSlug } from '../../services/contentful/articlesData';
-
-const { slug } = Astro.params;
-
+import ReactMarkdown from 'react-markdown';
+import {
+  getAllArticlesSlug,
+  getArticleBySlug
+} from '../../services/contentful/articlesData';
 export async function getStaticPaths() {
   const slugs = await getAllArticlesSlug();
   return slugs.map(({ fields }) => ({ params: { slug: fields.slug } }));
 }
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const { slug } = Astro.params as { slug: string };
+const article = await getArticleBySlug(slug);
 ---
 
 <BaseLayout title='Articles'>
-  {slug}
+  <article
+    class='prose sm:prose-lg lg:prose-xl dark:prose-dark transition-all duration-500 max-w-full prose-orange'
+  >
+    <ReactMarkdown children={article.fields.content} />
+  </article>
 </BaseLayout>

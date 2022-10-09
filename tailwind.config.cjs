@@ -18,5 +18,8 @@ module.exports = {
       fontFamily: { sans: ['Rubik', ...defaultTheme.fontFamily.sans] }
     }
   },
-  plugins: [require('@tailwindcss/line-clamp')]
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/typography')
+  ]
 };

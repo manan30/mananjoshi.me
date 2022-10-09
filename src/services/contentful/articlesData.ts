@@ -3,8 +3,9 @@ import { contentfulClient } from './client';
 export type ArticlesData = {
   title: string;
   slug: string;
-  readTime?: number;
   excerpt: string;
+  content: string;
+  readTime?: number;
 };
 
 export async function getDashboardArticles() {
@@ -36,4 +37,13 @@ export async function getAllArticlesSlug() {
   });
 
   return data.items;
+}
+
+export async function getArticleBySlug(slug: string) {
+  const data = await contentfulClient.getEntries<ArticlesData>({
+    content_type: 'blogPost',
+    'fields.slug': slug
+  });
+
+  return data.items[0];
 }
