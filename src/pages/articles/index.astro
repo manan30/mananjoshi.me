@@ -13,14 +13,14 @@ const articles = await getAllArticles();
         return (
           <article class='transtion rounded-md py-3'>
             <a href={`/articles/${article.slug}`}>
-              <h2 class='dark:text-primary-light mb-1 text-xl'>
+              <h2 class='dark:text-primary-light mb-1 text-2xl'>
                 {article.title}
               </h2>
             </a>
             <p class='line-clamp-3 md:line-clamp-4 mb-2 dark:text-gray-400'>
               {article.excerpt}
             </p>
-            <div class='flex items-center space-x-1 text-[0.6rem] dark:text-stone-200'>
+            <div class='flex items-center space-x-1 text-[0.6rem] text-stone-200'>
               <p>
                 {Intl.DateTimeFormat('en-US', {
                   dateStyle: 'medium'

@@ -16,9 +16,34 @@ const article = await getArticleBySlug(slug);
 ---
 
 <BaseLayout title='Articles'>
-  <article
-    class='prose sm:prose-lg lg:prose-xl dark:prose-dark transition-all duration-500 max-w-full prose-orange'
-  >
-    <ReactMarkdown children={article.fields.content} />
+  <article class='mt-8'>
+    <h1 class='text-4xl text-primary-light mb-4'>{article.fields.title}</h1>
+    <div class='flex w-full mb-6 items-center text-sm text-gray-400'>
+      <div class='flex items-center space-x-1'>
+        <p>
+          {
+            Intl.DateTimeFormat('en-US', {
+              dateStyle: 'medium'
+            }).format(new Date(article.sys.createdAt))
+          }
+        </p>
+        <svg height='8' width='8' class='fill-current'>
+          <circle cx='4' cy='4' r='2'></circle>
+        </svg>
+        <p>{article.fields.readTime} min read</p>
+      </div>
+      <em class='text-gray-400 ml-auto'
+        >Last Updated On {
+          Intl.DateTimeFormat('en-US', {
+            dateStyle: 'medium'
+          }).format(new Date(article.sys.updatedAt))
+        }
+      </em>
+    </div>
+    <article
+      class='prose sm:prose-lg lg:prose-xl dark:prose-dark transition-all duration-500 max-w-full prose-orange'
+    >
+      <ReactMarkdown children={article.fields.content} />
+    </article>
   </article>
 </BaseLayout>
