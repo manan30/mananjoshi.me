@@ -17,8 +17,13 @@ const article = await getArticleBySlug(slug);
 
 <BaseLayout title='Articles'>
   <article class='mt-8'>
-    <h1 class='text-4xl text-primary-light mb-4'>{article.fields.title}</h1>
-    <div class='flex w-full mb-6 items-center text-sm text-gray-400'>
+    <h1
+      class='text-3xl md:text-5xl text-primary-light mb-6 font-bold tracking-tight'
+    >
+      {article.fields.title}
+    </h1>
+    <!-- TODO: change this text color -->
+    <div class='flex w-full mb-6 items-center text-sm text-orange-100'>
       <div class='flex items-center space-x-1'>
         <p>
           {
@@ -32,7 +37,7 @@ const article = await getArticleBySlug(slug);
         </svg>
         <p>{article.fields.readTime} min read</p>
       </div>
-      <em class='text-gray-400 ml-auto'
+      <em class='ml-auto'
         >Last Updated On {
           Intl.DateTimeFormat('en-US', {
             dateStyle: 'medium'
@@ -41,7 +46,7 @@ const article = await getArticleBySlug(slug);
       </em>
     </div>
     <article
-      class='prose sm:prose-lg lg:prose-xl dark:prose-dark transition-all duration-500 max-w-full prose-orange'
+      class='prose prose-orange text-gray-400 sm:prose-lg lg:prose-xl prose-headings:text-primary-light prose-code:text-gray-50 prose-code:p-1 prose-code:rounded-sm prose-code:bg-gray-600 prose-strong:text-primary-light prose-blockquote:text-gray-500 prose-pre:prose-code:!bg-transparent'
     >
       <ReactMarkdown children={article.fields.content} />
     </article>
