@@ -1,5 +1,8 @@
 ---
-import ReactMarkdown from 'react-markdown';
+// import ReactMarkdown from 'react-markdown';
+// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { marked } from 'marked';
 import {
   getAllArticlesSlug,
   getArticleBySlug
@@ -13,6 +16,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const { slug } = Astro.params as { slug: string };
 const article = await getArticleBySlug(slug);
+// const content = marked.parse(article.fields.content);
+const response = await fetch(
+  'https://raw.githubusercontent.com/wiki/adam-p/markdown-here/Markdown-Cheatsheet.md'
+);
+const markdown = await response.text();
+const content = marked.parse(markdown);
 ---
 
 <BaseLayout title='Articles'>
@@ -45,10 +54,11 @@ const article = await getArticleBySlug(slug);
         }
       </em>
     </div>
+    <!-- TODO: add syntax highlighting -->
     <article
       class='prose prose-orange text-gray-400 sm:prose-lg lg:prose-xl prose-headings:text-primary-light prose-code:text-gray-50 prose-code:p-1 prose-code:rounded-sm prose-code:bg-gray-600 prose-strong:text-primary-light prose-blockquote:text-gray-500 prose-pre:prose-code:!bg-transparent'
+      set:html={content}
     >
-      <ReactMarkdown children={article.fields.content} />
     </article>
   </article>
 </BaseLayout>

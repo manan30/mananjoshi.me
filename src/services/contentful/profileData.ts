@@ -11,7 +11,7 @@ export async function getProfileData() {
   const data = await contentfulClient.getEntries<ProfileData>({
     content_type: 'profile',
     limit: 1,
-    order: 'sys.createdAt'
+    order: '-sys.createdAt'
   });
 
   return data.items[0];
