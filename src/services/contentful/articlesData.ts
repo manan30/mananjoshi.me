@@ -14,8 +14,8 @@ export async function getDashboardArticles() {
   >({
     content_type: 'blogPost',
     limit: 3,
-    order: '-sys.createdAt',
-    select: 'fields.title,fields.readTime,sys.createdAt'
+    order: '-fields.date',
+    select: 'fields.title,fields.readTime,fields.date,fields.slug'
   });
 
   return data.items;
@@ -24,7 +24,7 @@ export async function getDashboardArticles() {
 export async function getAllArticles() {
   const data = await contentfulClient.getEntries<ArticlesData>({
     content_type: 'blogPost',
-    order: '-sys.createdAt'
+    order: '-fields.date'
   });
 
   return data.items;
