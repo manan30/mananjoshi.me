@@ -6,6 +6,10 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), partytown(), react()],
+  integrations: [
+    tailwind({ config: { applyBaseStyles: false } }),
+    partytown(),
+    react()
+  ],
   server: { port: 3002 }
 });

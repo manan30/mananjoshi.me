@@ -22,11 +22,10 @@ const content = marked.parse(article.fields.content);
 <BaseLayout title='Articles'>
   <article class='mt-8'>
     <h1
-      class='text-3xl md:text-5xl text-primary-light mb-6 font-bold tracking-tight'
+      class='text-3xl md:text-5xl text-slate-50 mb-6 font-bold tracking-tight'
     >
       {article.fields.title}
     </h1>
-    <!-- TODO: change this text color -->
     <div class='flex w-full mb-6 items-center text-sm text-orange-100'>
       <div class='flex items-center space-x-1'>
         <p>
@@ -49,9 +48,8 @@ const content = marked.parse(article.fields.content);
         }
       </em>
     </div>
-    <!-- TODO: add syntax highlighting -->
     <article
-      class='prose prose-orange text-gray-400 sm:prose-lg lg:prose-xl prose-headings:text-primary-light prose-code:text-gray-50 prose-code:p-1 prose-code:rounded-sm prose-code:bg-gray-600 prose-strong:text-primary-light prose-blockquote:text-gray-500 prose-pre:prose-code:!bg-transparent'
+      class='prose prose-orange text-slate-300 sm:prose-lg lg:prose-xl prose-headings:text-primary-light prose-headings:!my-8 prose-code:text-gray-50 prose-code:p-1 prose-code:rounded-md prose-code:bg-gray-600 prose-strong:text-primary-light prose-blockquote:text-gray-400 prose-code:font-mono'
       set:html={content}
     >
     </article>
