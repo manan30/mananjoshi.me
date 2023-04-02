@@ -32,7 +32,7 @@ const getLinks = (links: { [key in keyof typeof iconMappings]?: string }) => {
 };
 ---
 
-<SectionHeader title='Recent Projects' link='projects' />
+<SectionHeader title='Recent Projects' link='projects' hideViewAll />
 <div class='grid md:grid-cols-3 gap-6 mt-4'>
   {
     projectsData.map(({ fields: project }) => {
