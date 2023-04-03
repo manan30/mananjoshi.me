@@ -1,4 +1,5 @@
 ---
+import { Image } from '@astrojs/image/components';
 import TwitterIcon from '../assets/svg/twitter.astro';
 import GithubIcon from '../assets/svg/github.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -33,10 +34,13 @@ const { fields: profileData } = await getProfileData();
         }
       </div>
     </section>
-    <img
+    <Image
       class='rounded-full bg-gray-800 h-24 w-24 md:h-32 md:w-32 mb-4 md:mb-0 md:ml-auto'
       alt={profileData.picture.fields.title}
       src={profileData.picture.fields.file.url}
+      width={1024}
+      height={1024}
+      format='avif'
     />
   </div>
 
