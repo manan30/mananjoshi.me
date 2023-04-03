@@ -6,6 +6,7 @@ export type ArticlesData = {
   excerpt: string;
   content: string;
   readTime?: number;
+  date: string;
 };
 
 export async function getDashboardArticles() {

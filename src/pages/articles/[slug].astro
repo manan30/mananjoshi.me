@@ -26,13 +26,15 @@ const content = marked.parse(article.fields.content);
     >
       {article.fields.title}
     </h1>
-    <div class='flex w-full mb-6 items-center text-sm text-orange-100'>
+    <div
+      class='flex flex-col sm:flex-row w-full mb-6 sm:items-center text-sm text-orange-100 space-y-2 sm:space-y-0'
+    >
       <div class='flex items-center space-x-1'>
         <p>
           {
             Intl.DateTimeFormat('en-US', {
               dateStyle: 'medium'
-            }).format(new Date(article.sys.createdAt))
+            }).format(new Date(article.fields.date))
           }
         </p>
         <svg height='8' width='8' class='fill-current'>
@@ -40,7 +42,7 @@ const content = marked.parse(article.fields.content);
         </svg>
         <p>{article.fields.readTime} min read</p>
       </div>
-      <em class='ml-auto'
+      <em class='sm:ml-auto'
         >Last Updated On {
           Intl.DateTimeFormat('en-US', {
             dateStyle: 'medium'
