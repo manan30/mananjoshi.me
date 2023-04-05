@@ -1,4 +1,4 @@
-import type { RichTextContent } from 'contentful';
+import type { Document } from '@contentful/rich-text-types';
 import { contentfulClient } from './client';
 
 type JourneyData = {
@@ -6,8 +6,8 @@ type JourneyData = {
   company: string;
   startDate: string;
   endDate?: string;
-  location?: string;
-  duties?: RichTextContent;
+  location: string;
+  duties: Document;
 };
 
 export async function getJourneyData() {

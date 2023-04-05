@@ -4,6 +4,7 @@ specifiers:
   '@astrojs/partytown': ^1.0.0
   '@astrojs/react': ^1.1.4
   '@astrojs/tailwind': ^1.0.0
+  '@contentful/rich-text-html-renderer': ^16.0.3
   '@fontsource/rubik': ^4.5.11
   '@tailwindcss/line-clamp': ^0.4.2
   '@tailwindcss/typography': ^0.5.7
@@ -29,6 +30,7 @@ specifiers:
   typescript: ^4.8.2
 
 dependencies:
+  '@contentful/rich-text-html-renderer': 16.0.3
   '@fontsource/rubik': 4.5.11
   contentful: 9.1.34
   marked: 4.1.1
@@ -441,6 +443,19 @@ packages:
     resolution: {integrity: sha512-HcHlmMYSpOxfJ0lFVxgZrvgIjz1Q8knlGuWkBpvjIp68j+xVWg969+sn7BCfyKhcGaYlnVOY/CEBHapQBcl0jw==}
     hasBin: true
     dev: true
+
+  /@contentful/rich-text-html-renderer/16.0.3:
+    resolution: {integrity: sha512-sRYhjhIOCMPU4izZsDmkM0C0UpXEHkLSdJgNFA2eflwqu3k24Fi0lGO2n/xY+W3tC2vu57/qD7r7qWI3M7KBkQ==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      '@contentful/rich-text-types': 16.0.3
+      escape-html: 1.0.3
+    dev: false
+
+  /@contentful/rich-text-types/16.0.3:
+    resolution: {integrity: sha512-BsUtXj93jo5XUt0YeUwfCkMWRoZIzJDPUIY4vMy9SwGIO9olTsMoQKadjA2ktlmK+Gg6710WH3eFKZxj2q39Iw==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /@emmetio/abbreviation/2.2.3:
     resolution: {integrity: sha512-87pltuCPt99aL+y9xS6GPZ+Wmmyhll2WXH73gG/xpGcQ84DRnptBsI2r0BeIQ0EB/SQTOe2ANPqFqj3Rj5FOGA==}
@@ -1797,6 +1812,10 @@ packages:
     resolution: {integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==}
     engines: {node: '>=6'}
     dev: true
+
+  /escape-html/1.0.3:
+    resolution: {integrity: sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow==}
+    dev: false
 
   /escape-string-regexp/1.0.5:
     resolution: {integrity: sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==}
