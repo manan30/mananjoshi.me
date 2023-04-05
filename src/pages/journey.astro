@@ -11,7 +11,7 @@ const journeyData = await getJourneyData();
   <h1 class='mt-6 text-5xl dark:text-primary-light font-semibold -ml-3'>
     Journey
   </h1>
-  <ol class='relative border-l border-gray-700 mt-20 sm:mt-8'>
+  <ol class='relative border-l border-gray-700 mt-12 sm:mt-8'>
     {
       journeyData.map((journey) => (
         <li class='mb-6 ml-6'>
@@ -73,7 +73,7 @@ const journeyData = await getJourneyData();
             </p>
           </div>
           <span
-            class='prose prose-li:-ml-[2.45rem] text-base font-normal text-gray-400'
+            class='prose prose-li:-ml-[2.4rem] sm:prose-li:-ml-[2.45rem] text-base font-normal text-gray-400'
             set:html={documentToHtmlString(journey.duties)}
           />
         </li>
