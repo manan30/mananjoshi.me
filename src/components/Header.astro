@@ -3,11 +3,11 @@ const { url } = Astro;
 
 const links = [
   { text: 'Home', href: '/', highlighted: url.pathname === '/' },
-  // {
-  //   text: 'Journey',
-  //   href: '/journey',
-  //   highlighted: url.pathname.includes('/work')
-  // },
+  {
+    text: 'Journey',
+    href: '/journey',
+    highlighted: url.pathname.includes('/journey')
+  },
   {
     text: 'Articles',
     href: '/articles',
