@@ -6,4 +6,8 @@
   pre code {
     background-color: transparent !important;
   }
+
+  a {
+    @apply focus:outline-none focus:ring focus:ring-orange-500 focus:ring-offset-1 focus:ring-offset-gray-900;
+  }
 }
