@@ -1,12 +1,14 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import { links } from '../utils/constants';
 
 function Menu({ url }: { url?: URL }) {
   const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   return (
     <>
+      <div ref={ref}></div>
       <button
         className='ml-auto block focus:outline-none focus:ring focus:ring-orange-500 focus:ring-offset-1 focus:ring-offset-gray-900 md:hidden'
         onClick={() => setIsOpen(true)}
@@ -37,6 +39,7 @@ function Menu({ url }: { url?: URL }) {
           as='div'
           className='relative z-10'
           onClose={() => setIsOpen(false)}
+          initialFocus={ref}
         >
           <Transition.Child
             as={Fragment}
@@ -65,6 +68,7 @@ function Menu({ url }: { url?: URL }) {
                   <nav className='text-primary flex flex-col items-start space-y-4 text-lg transition-colors delay-75 ease-in-out'>
                     {links(url ?? new URL(window.location.href)).map((link) => (
                       <a
+                        key={link.text}
                         className={`hover:text-orange-600 ${
                           link.highlighted
                             ? 'font-semibold dark:text-primary-light'
