@@ -1,35 +1,14 @@
 ---
-const { url } = Astro;
+import Menu from './Menu';
+import { links as Links } from '../utils/constants';
 
-const links = [
-  { text: 'Home', href: '/', highlighted: url.pathname === '/' },
-  {
-    text: 'Journey',
-    href: '/journey',
-    highlighted: url.pathname.includes('/journey')
-  },
-  {
-    text: 'Articles',
-    href: '/articles',
-    highlighted: url.pathname.includes('/articles')
-  },
-  {
-    text: 'Resume',
-    href: '/resume.pdf'
-  }
-  // {
-  //   text: 'Projects',
-  //   href: '/projects',
-  //   highlighted: url.pathname.includes('/projects')
-  // }
-];
+const { url } = Astro;
+const links = Links(url);
 ---
 
-<header
-  class='hidden w-full font-normal md:flex md:items-center md:pt-6 md:pb-4'
->
+<header class='w-full font-normal flex items-center pt-6 pb-4'>
   <nav
-    class='flex items-center space-x-4 text-lg text-primary transition-colors delay-75 ease-in-out'
+    class='md:flex md:items-center space-x-4 text-lg text-primary transition-colors delay-75 ease-in-out hidden'
   >
     {
       links.map((link) => (
@@ -46,4 +25,5 @@ const links = [
       ))
     }
   </nav>
+  <Menu url={url} client:only='react' />
 </header>
