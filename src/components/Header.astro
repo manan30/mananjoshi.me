@@ -6,7 +6,9 @@ const { url } = Astro;
 const links = Links(url);
 ---
 
-<header class='w-full font-normal flex items-center pt-6 pb-4 mb-8'>
+<header
+  class='w-full font-normal flex items-center pt-6 pb-4 min-h-[5rem] md:min-h-0'
+>
   <nav
     class='md:flex md:items-center space-x-4 text-lg text-primary transition-colors delay-75 ease-in-out hidden'
   >
