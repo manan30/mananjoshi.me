@@ -1,34 +1,34 @@
 ---
-import GithubIcon from '../../assets/svg/github.astro';
-import BlogIcon from '../../assets/svg/blog.astro';
-import LinkIcon from '../../assets/svg/link.astro';
-import NPMIcon from '../../assets/svg/npm.astro';
-import Card from './Card.astro';
-import { getProjectsData } from '../../services/contentful';
-import SectionHeader from './SectionHeader.astro';
+import BlogIcon from "../../assets/svg/blog.astro";
+import GithubIcon from "../../assets/svg/github.astro";
+import LinkIcon from "../../assets/svg/link.astro";
+import NPMIcon from "../../assets/svg/npm.astro";
+import { getProjectsData } from "../../services/contentful";
+import Card from "./Card.astro";
+import SectionHeader from "./SectionHeader.astro";
 
 const projectsData = await getProjectsData();
 
 const iconMappings = {
-  githubURL: GithubIcon,
-  blogURL: BlogIcon,
-  deploymentURL: LinkIcon,
-  packageURL: NPMIcon
+	githubURL: GithubIcon,
+	blogURL: BlogIcon,
+	deploymentURL: LinkIcon,
+	packageURL: NPMIcon,
 };
 
 const getLinks = (links: { [key in keyof typeof iconMappings]?: string }) => {
-  return Object.entries(links)
-    .map(([key, value]) => {
-      if (value)
-        return {
-          Icon: iconMappings[key as keyof typeof iconMappings],
-          link: value
-        };
-    })
-    .filter(Boolean) as {
-    Icon: (props: Record<string, unknown>) => unknown;
-    link: string;
-  }[];
+	return Object.entries(links)
+		.map(([key, value]) => {
+			if (value)
+				return {
+					Icon: iconMappings[key as keyof typeof iconMappings],
+					link: value,
+				};
+		})
+		.filter(Boolean) as {
+		Icon: (props: Record<string, unknown>) => unknown;
+		link: string;
+	}[];
 };
 ---
 

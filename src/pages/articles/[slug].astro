@@ -2,17 +2,17 @@
 // import ReactMarkdown from 'react-markdown';
 // import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { marked } from 'marked';
+import { marked } from "marked";
 import {
-  getAllArticlesSlug,
-  getArticleBySlug
-} from '../../services/contentful/articlesData';
+	getAllArticlesSlug,
+	getArticleBySlug,
+} from "../../services/contentful/articlesData";
 export async function getStaticPaths() {
-  const slugs = await getAllArticlesSlug();
-  return slugs.map(({ fields }) => ({ params: { slug: fields.slug } }));
+	const slugs = await getAllArticlesSlug();
+	return slugs.map(({ fields }) => ({ params: { slug: fields.slug } }));
 }
 
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const { slug } = Astro.params as { slug: string };
 const article = await getArticleBySlug(slug);

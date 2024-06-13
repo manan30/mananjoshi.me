@@ -1,10 +1,10 @@
 ---
-import TwitterIcon from '../assets/svg/twitter.astro';
-import GithubIcon from '../assets/svg/github.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Projects from '../components/Home/Projects.astro';
-import Articles from '../components/Home/Articles.astro';
-import { getProfileData } from '../services/contentful';
+import GithubIcon from "../assets/svg/github.astro";
+import TwitterIcon from "../assets/svg/twitter.astro";
+import Articles from "../components/Home/Articles.astro";
+import Projects from "../components/Home/Projects.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getProfileData } from "../services/contentful";
 
 const { fields: profileData } = await getProfileData();
 ---

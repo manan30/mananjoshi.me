@@ -1,15 +1,15 @@
-import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
-import partytown from '@astrojs/partytown';
+import partytown from "@astrojs/partytown";
+import tailwind from "@astrojs/tailwind";
+import { defineConfig } from "astro/config";
 
-import react from '@astrojs/react';
+import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    tailwind({ config: { applyBaseStyles: false } }),
-    partytown(),
-    react()
-  ],
-  server: { port: 3002 }
+	integrations: [
+		tailwind({ config: { applyBaseStyles: false } }),
+		partytown(),
+		react(),
+	],
+	server: { port: 3002 },
 });

@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["astro", "astrojs", "partytown", "tailwindcss"]
+	"cSpell.words": [
+		"astro",
+		"astrojs",
+		"Instantiator",
+		"lucide",
+		"partytown",
+		"tailwindcss",
+		"tsconfigs"
+	]
 }
