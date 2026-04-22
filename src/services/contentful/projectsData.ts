@@ -13,6 +13,7 @@ export type ProjectsData = {
 const importanceOrder = [
 	"adflare.ai",
 	"pricingch.art",
+	"prompt atlas",
 	"billiards",
 	"svelte trivia",
 	"comed hourly pricing",
@@ -34,6 +35,10 @@ const curatedDescriptions = new Map<string, string>([
 	[
 		"pricingch.art",
 		"Pricing card creation tool for quickly designing and sharing polished pricing layouts; now sunsetted.",
+	],
+	[
+		"prompt atlas",
+		"Interactive guide for building stronger prompts with practical examples and reusable frameworks.",
 	],
 	[
 		"billiards",
@@ -67,8 +72,18 @@ const curatedDescriptions = new Map<string, string>([
 
 const sunsettedTitles = new Set(["adflare.ai", "pricingch.art"]);
 
+const titleAliases = new Map<string, string>([
+	["prompting guide", "prompt atlas"],
+	["prompt-atlas", "prompt atlas"],
+]);
+
+const deploymentUrlOverrides = new Map<string, string>([
+	["prompt atlas", "https://prompt-atlas.mananjoshi.me/"],
+]);
+
 function normalizeTitle(title: string) {
-	return title.trim().toLowerCase();
+	const normalized = title.trim().toLowerCase();
+	return titleAliases.get(normalized) ?? normalized;
 }
 
 function getRank(title: string) {
@@ -106,9 +121,11 @@ export async function getProjectsData(params?: { limit?: number }) {
 				fields: {
 					...item.fields,
 					description: curatedDescription,
-					deploymentURL: sunsettedTitles.has(normalizedTitle)
-						? undefined
-						: item.fields.deploymentURL,
+					deploymentURL:
+						deploymentUrlOverrides.get(normalizedTitle) ??
+						(sunsettedTitles.has(normalizedTitle)
+							? undefined
+							: item.fields.deploymentURL),
 				},
 			};
 		})

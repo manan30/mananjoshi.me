@@ -67,6 +67,14 @@ const manualProjectSeeds: ProjectSeed[] = [
 		deploymentURL: "https://pricingch.art",
 		isPackage: false,
 	},
+	{
+		title: "Prompt Atlas",
+		description:
+			"Interactive guide for building stronger prompts with practical examples and reusable frameworks.",
+		githubURL: "https://github.com/manan30/prompting-guide",
+		deploymentURL: "https://prompt-atlas.mananjoshi.me/",
+		isPackage: false,
+	},
 ];
 
 function getArgFlag(flag: string) {
@@ -172,7 +180,14 @@ async function main() {
 	const locale = process.env.CONTENTFUL_LOCALE ?? "en-US";
 
 	const reposByOwner = await Promise.all(
-		githubSourceOwners.map((owner) => fetchGitHubRepos(owner)),
+		githubSourceOwners.map(async (owner) => {
+			try {
+				return await fetchGitHubRepos(owner);
+			} catch (error) {
+				console.warn(`Skipping ${owner}:`, error);
+				return [] as GitHubRepo[];
+			}
+		}),
 	);
 	const githubRepos = reposByOwner.flat();
 	const githubByFullName = new Map(
