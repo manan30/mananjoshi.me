@@ -10,43 +10,86 @@ const { fields: profileData } = await getProfileData();
 ---
 
 <BaseLayout title='Home'>
-  <div
-    class='flex flex-col-reverse justify-start md:flex-row md:items-center mt-4 md:mt-16'
-  >
-    <section class='w-full flex flex-col space-y-2 md:w-[70%] md:mr-4'>
-      <h1 class='text-primary-light font-semibold text-3xl md:text-5xl'>
-        Manan Joshi
-      </h1>
-      <h3 class='text-slate-400 text-xs md:text-sm'>
-        {profileData.titleAndCompany}
-      </h3>
-      <div class='flex items-center space-x-2 dark:text-primary-light'>
-        {
-          [
-            { Icon: TwitterIcon, link: 'https://twitter.com/manan__joshi' },
-            { Icon: GithubIcon, link: 'https://github.com/manan30' }
-          ].map(({ Icon, link }) => (
-            <a class='hover:text-orange-600' href={link}>
-              <Icon height={14} width={14} />
-            </a>
-          ))
-        }
+  <section class='reveal mt-4 rounded-3xl border border-white/10 bg-slate-900/60 p-4 sm:p-6 md:p-8'>
+    <div class='flex flex-col gap-4 md:flex-row md:items-start'>
+      <div class='flex-1'>
+        <p class='text-xs font-semibold uppercase tracking-[0.24em] text-orange-300'>
+          Full-Stack Engineer
+        </p>
+        <h1 class='mt-2 text-[2rem] font-semibold leading-tight text-slate-100 sm:text-4xl md:text-6xl'>
+          Manan Joshi
+        </h1>
+        <p class='mt-3 max-w-2xl text-sm text-slate-200 md:text-base'>
+          {profileData.titleAndCompany}
+        </p>
+        <p class='mt-3 hidden max-w-2xl text-sm leading-relaxed text-slate-300 md:block md:text-base'>
+          {profileData.bio}
+        </p>
+        <div class='mt-3 md:hidden'>
+          <p class='line-clamp-3 text-sm leading-relaxed text-slate-300'>{profileData.bio}</p>
+          <details class='group mt-2'>
+            <summary class='cursor-pointer text-xs font-medium text-orange-300'>Read more</summary>
+            <p class='mt-2 text-sm leading-relaxed text-slate-300'>{profileData.bio}</p>
+          </details>
+        </div>
+
+        <div class='mt-5 flex flex-wrap items-center gap-2'>
+          <a
+            href='/projects'
+            class='rounded-full bg-orange-500 px-4 py-2 text-sm font-medium text-slate-950 transition hover:bg-orange-400'
+          >
+            Explore projects
+          </a>
+          <a
+            href='/resume.pdf'
+            class='rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-slate-100 transition hover:border-orange-300/50 hover:text-orange-200'
+          >
+            Resume
+          </a>
+        </div>
+
+        <div class='mt-5 flex items-center space-x-3 text-slate-300'>
+          {
+            [
+              { Icon: TwitterIcon, link: 'https://twitter.com/manan__joshi' },
+              { Icon: GithubIcon, link: 'https://github.com/manan30' }
+            ].map(({ Icon, link }) => (
+              <a class='h-4 w-4 transition hover:text-orange-300' href={link}>
+                <Icon height={16} width={16} />
+              </a>
+            ))
+          }
+        </div>
       </div>
-    </section>
-    <img
-      class='rounded-full bg-gray-800 h-24 w-24 md:h-32 md:w-32 mb-4 md:mb-0 md:ml-auto'
-      alt={profileData.picture.fields.title}
-      src={profileData.picture.fields.file.url}
-    />
-  </div>
 
-  <p class='!mt-6 text-gray-400 text-sm md:text-base'>{profileData.bio}</p>
-
-  <section class='mt-8 md:mt-12'>
-    <Articles />
+      <img
+        class='h-20 w-20 rounded-2xl border border-white/10 bg-slate-800 object-cover sm:h-24 sm:w-24 md:ml-auto md:h-28 md:w-28'
+        alt={profileData.picture.fields.title}
+        src={profileData.picture.fields.file.url}
+      />
+    </div>
   </section>
 
-  <section class='mt-8 md:mt-12'>
+  <section class='reveal mt-5 grid gap-2.5 text-sm text-slate-300 md:grid-cols-3'>
+    <div class='rounded-2xl border border-white/10 bg-slate-900/50 p-3.5'>
+      <p class='text-xs uppercase tracking-[0.2em] text-slate-400'>Focus</p>
+      <p class='mt-1.5 font-medium text-slate-100'>Product Engineering</p>
+    </div>
+    <div class='rounded-2xl border border-white/10 bg-slate-900/50 p-3.5'>
+      <p class='text-xs uppercase tracking-[0.2em] text-slate-400'>Strengths</p>
+      <p class='mt-1.5 font-medium text-slate-100'>Frontend systems, APIs, AI workflows</p>
+    </div>
+    <div class='rounded-2xl border border-white/10 bg-slate-900/50 p-3.5'>
+      <p class='text-xs uppercase tracking-[0.2em] text-slate-400'>Current</p>
+      <p class='mt-1.5 font-medium text-slate-100'>Shipping production-grade user experiences</p>
+    </div>
+  </section>
+
+  <section class='reveal mt-8 md:mt-12'>
     <Projects />
+  </section>
+
+  <section class='reveal mt-8 md:mt-12'>
+    <Articles />
   </section>
 </BaseLayout>

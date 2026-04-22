@@ -15,8 +15,28 @@ const projectsWithMeta = await Promise.all(
 	})),
 );
 
-const topProjects = projectsWithMeta.slice(0, 3);
-const remainingProjects = projectsWithMeta.slice(3);
+const visibleProjects = projectsWithMeta.filter(({ project, githubMeta }) => {
+	if (!project.fields.githubURL) {
+		return true;
+	}
+
+	if (
+		project.fields.deploymentURL ||
+		project.fields.packageURL ||
+		project.fields.blogURL
+	) {
+		return true;
+	}
+
+	if (!githubMeta) {
+		return true;
+	}
+
+	return githubMeta.stars > 0;
+});
+
+const topProjects = visibleProjects.slice(0, 3);
+const remainingProjects = visibleProjects.slice(3);
 
 const iconMappings = {
 	githubURL: GithubIcon,
@@ -47,6 +67,8 @@ const formatRank = (rank: number) => `#${String(rank).padStart(2, "0")}`;
 const categoryByTitle = new Map<string, string>([
 	["adflare.ai", "AI Product"],
 	["pricingch.art", "SaaS Tool"],
+	["prompt atlas", "AI Tool"],
+	["prompting guide", "AI Tool"],
 	["billiards", "3D/WebGL"],
 	["svelte trivia", "Frontend App"],
 	["comed hourly pricing", "Automation"],
@@ -91,18 +113,18 @@ const getPrimaryAction = (project: {
 ---
 
 <BaseLayout title='Projects'>
-  <section class='mt-6 border-b border-white/10 pb-6'>
+  <section class='reveal mt-6 border-b border-white/10 pb-5'>
     <p class='text-xs font-semibold uppercase tracking-[0.24em] text-orange-300'>
       Work
     </p>
-    <h1 class='mt-3 text-4xl font-semibold tracking-tight text-slate-100 md:text-6xl'>
+    <h1 class='mt-2 text-[2rem] font-semibold tracking-tight text-slate-100 sm:text-4xl md:text-6xl'>
       Projects
     </h1>
   </section>
 
   {
     topProjects[0] ? (
-      <section class='mt-8'>
+      <section class='reveal mt-6'>
         {(() => {
           const project = topProjects[0].project.fields;
           const githubMeta = topProjects[0].githubMeta;
@@ -115,30 +137,34 @@ const getPrimaryAction = (project: {
           const primaryAction = getPrimaryAction(project);
 
           return (
-            <article class='relative overflow-hidden rounded-3xl border border-orange-300/20 bg-gradient-to-br from-slate-900 to-slate-800 p-6 md:p-8'>
+            <article class='relative overflow-hidden rounded-3xl border border-orange-300/20 bg-gradient-to-br from-slate-900 to-slate-800 p-4 sm:p-6 md:p-8'>
               <div class='absolute -right-12 -top-12 h-36 w-36 rounded-full bg-orange-500/20 blur-3xl'></div>
               <div class='relative flex h-full flex-col'>
-                <div class='flex items-start justify-between gap-3'>
+                <div class='flex flex-col items-start gap-3 sm:flex-row sm:justify-between'>
                   <div>
                     <p class='text-xs font-semibold uppercase tracking-[0.2em] text-orange-300'>
                       {formatRank(1)}
                     </p>
-                    <h2 class='mt-2 text-3xl font-semibold text-slate-100'>{project.title}</h2>
+                    <h2 class='mt-1.5 text-[1.6rem] font-semibold leading-tight text-slate-100 sm:text-3xl'>{project.title}</h2>
                   </div>
                   <span class='rounded-full border border-orange-300/40 bg-orange-500/10 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-wide text-orange-200'>
                     {getCategory(project.title, project.isPackage)}
                   </span>
                 </div>
 
-                <p class='mt-4 max-w-3xl flex-1 text-base leading-relaxed text-slate-300'>
+                <p class='mt-3 max-w-3xl flex-1 text-sm leading-relaxed text-slate-200 sm:text-base'>
                   {project.description}
                 </p>
 
-                {
-                  githubMeta ? (
-                    <div class='mt-4 flex items-center gap-3 text-xs text-slate-400'>
-                      <span>{githubMeta.stars} stars</span>
-                      {githubMeta.language ? <span>{githubMeta.language}</span> : null}
+                <details class='group mt-3'>
+                  <summary class='cursor-pointer text-xs font-medium text-slate-400 transition hover:text-orange-300'>
+                    More details
+                  </summary>
+                  <div class='mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400'>
+                    <span>{getCategory(project.title, project.isPackage)}</span>
+                    {githubMeta ? <span>{githubMeta.stars} stars</span> : null}
+                    {githubMeta?.language ? <span>{githubMeta.language}</span> : null}
+                    {githubMeta ? (
                       <span>
                         Updated {
                           Intl.DateTimeFormat("en-US", {
@@ -147,11 +173,11 @@ const getPrimaryAction = (project: {
                           }).format(new Date(githubMeta.updatedAt))
                         }
                       </span>
-                    </div>
-                  ) : null
-                }
+                    ) : null}
+                  </div>
+                </details>
 
-                <div class='mt-5 flex items-center justify-between border-t border-white/10 pt-4'>
+                <div class='mt-4 flex items-center justify-between border-t border-white/10 pt-3'>
                   {primaryAction ? (
                     <a
                       href={primaryAction.href}
@@ -159,9 +185,7 @@ const getPrimaryAction = (project: {
                     >
                       {primaryAction.label}
                     </a>
-                  ) : (
-                    <span class='text-sm text-slate-500'>No public link</span>
-                  )}
+                  ) : <span />}
 
                   <div class='flex items-center space-x-2'>
                     {links.map(({ Icon, link, label }) => (
@@ -183,7 +207,7 @@ const getPrimaryAction = (project: {
     ) : null
   }
 
-  <section class='mt-4 grid gap-4 md:grid-cols-1 lg:grid-cols-2'>
+  <section class='reveal mt-4 grid gap-3 md:grid-cols-1 lg:grid-cols-2'>
     {
       topProjects.slice(1).map(({ project: { fields: project }, githubMeta }, index) => {
         const links = getLinks({
@@ -195,28 +219,32 @@ const getPrimaryAction = (project: {
         const primaryAction = getPrimaryAction(project);
 
         return (
-          <article class='relative overflow-hidden rounded-3xl border border-orange-300/20 bg-gradient-to-br from-slate-900 to-slate-800 p-6 md:p-7'>
+          <article class='relative overflow-hidden rounded-3xl border border-orange-300/20 bg-gradient-to-br from-slate-900 to-slate-800 p-4 sm:p-6 md:p-7'>
             <div class='absolute -right-8 -top-8 h-28 w-28 rounded-full bg-orange-500/20 blur-2xl'></div>
             <div class='relative flex h-full flex-col'>
-              <div class='flex items-start justify-between gap-3'>
+              <div class='flex flex-col items-start gap-3 sm:flex-row sm:justify-between'>
                 <div>
                   <p class='text-xs font-semibold uppercase tracking-[0.2em] text-orange-300'>
                     {formatRank(index + 2)}
                   </p>
-                  <h2 class='mt-2 text-2xl font-semibold text-slate-100'>{project.title}</h2>
+                  <h2 class='mt-1.5 text-xl font-semibold leading-tight text-slate-100 sm:text-2xl'>{project.title}</h2>
                 </div>
                 <span class='rounded-full border border-orange-300/40 bg-orange-500/10 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-wide text-orange-200'>
                   {getCategory(project.title, project.isPackage)}
                 </span>
               </div>
 
-              <p class='mt-4 flex-1 text-sm leading-relaxed text-slate-300'>{project.description}</p>
+              <p class='mt-3 flex-1 text-sm leading-relaxed text-slate-200'>{project.description}</p>
 
-              {
-                githubMeta ? (
-                  <div class='mt-4 flex items-center gap-3 text-xs text-slate-400'>
-                    <span>{githubMeta.stars} stars</span>
-                    {githubMeta.language ? <span>{githubMeta.language}</span> : null}
+              <details class='group mt-3'>
+                <summary class='cursor-pointer text-xs font-medium text-slate-400 transition hover:text-orange-300'>
+                  More details
+                </summary>
+                <div class='mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400'>
+                  <span>{getCategory(project.title, project.isPackage)}</span>
+                  {githubMeta ? <span>{githubMeta.stars} stars</span> : null}
+                  {githubMeta?.language ? <span>{githubMeta.language}</span> : null}
+                  {githubMeta ? (
                     <span>
                       Updated {
                         Intl.DateTimeFormat("en-US", {
@@ -225,11 +253,11 @@ const getPrimaryAction = (project: {
                         }).format(new Date(githubMeta.updatedAt))
                       }
                     </span>
-                  </div>
-                ) : null
-              }
+                  ) : null}
+                </div>
+              </details>
 
-              <div class='mt-5 flex items-center justify-between border-t border-white/10 pt-4'>
+              <div class='mt-4 flex items-center justify-between border-t border-white/10 pt-3'>
                 {primaryAction ? (
                   <a
                     href={primaryAction.href}
@@ -237,9 +265,7 @@ const getPrimaryAction = (project: {
                   >
                     {primaryAction.label}
                   </a>
-                ) : (
-                  <span class='text-sm text-slate-500'>No public link</span>
-                )}
+                ) : <span />}
 
                 <div class='flex items-center space-x-2'>
                   {links.map(({ Icon, link, label }) => (
@@ -260,7 +286,7 @@ const getPrimaryAction = (project: {
     }
   </section>
 
-  <section class='mt-8'>
+  <section class='reveal mt-7'>
     <ol class='divide-y divide-white/10'>
     {
       remainingProjects.map(({ project: { fields: project }, githubMeta }, index) => {
@@ -273,13 +299,13 @@ const getPrimaryAction = (project: {
         const primaryAction = getPrimaryAction(project);
 
         return (
-          <li class='py-5'>
-            <div class='mb-3 flex items-start justify-between gap-3'>
+          <li class='py-4 sm:py-5'>
+            <div class='mb-2.5 flex flex-col items-start gap-2.5 sm:flex-row sm:justify-between'>
               <div>
                 <p class='text-xs font-semibold uppercase tracking-[0.2em] text-orange-300'>
                   {formatRank(index + 4)}
                 </p>
-                <h2 class='mt-1 text-xl font-semibold text-slate-100 md:text-2xl'>{project.title}</h2>
+                <h2 class='mt-1 text-lg font-semibold text-slate-100 sm:text-xl md:text-2xl'>{project.title}</h2>
               </div>
               <span class='rounded-full border border-orange-300/40 bg-orange-500/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-orange-200'>
                 {getCategory(project.title, project.isPackage)}
@@ -288,11 +314,15 @@ const getPrimaryAction = (project: {
 
             <p class='max-w-3xl text-sm text-slate-300'>{project.description}</p>
 
-            {
-              githubMeta ? (
-                <div class='mt-3 flex items-center gap-3 text-xs text-slate-400'>
-                  <span>{githubMeta.stars} stars</span>
-                  {githubMeta.language ? <span>{githubMeta.language}</span> : null}
+            <details class='group mt-2.5'>
+              <summary class='cursor-pointer text-xs font-medium text-slate-400 transition hover:text-orange-300'>
+                More details
+              </summary>
+              <div class='mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400'>
+                <span>{getCategory(project.title, project.isPackage)}</span>
+                {githubMeta ? <span>{githubMeta.stars} stars</span> : null}
+                {githubMeta?.language ? <span>{githubMeta.language}</span> : null}
+                {githubMeta ? (
                   <span>
                     Updated {
                       Intl.DateTimeFormat("en-US", {
@@ -301,9 +331,9 @@ const getPrimaryAction = (project: {
                       }).format(new Date(githubMeta.updatedAt))
                     }
                   </span>
-                </div>
-              ) : null
-            }
+                ) : null}
+              </div>
+            </details>
 
             <div class='mt-4 flex w-full items-center justify-between'>
               {primaryAction ? (
@@ -313,9 +343,7 @@ const getPrimaryAction = (project: {
                 >
                   {primaryAction.label}
                 </a>
-              ) : (
-                <span class='text-xs text-slate-500'>No public link</span>
-              )}
+              ) : <span />}
               <div class='flex items-center space-x-2'>
                 {links.map(({ Icon, link, label }) => (
                   <a

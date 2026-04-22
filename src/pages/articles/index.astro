@@ -6,34 +6,38 @@ const articles = await getAllArticles();
 ---
 
 <BaseLayout title='Articles'>
-  <div class='mt-8 flex flex-col space-y-4'>
-    <h1 class='text-5xl dark:text-primary-light font-semibold'>Articles</h1>
+  <section class='reveal mt-8'>
+    <p class='text-xs font-semibold uppercase tracking-[0.24em] text-orange-300'>
+      Writing
+    </p>
+    <h1 class='mt-2 text-[2rem] font-semibold text-slate-100 sm:text-4xl md:text-6xl'>Articles</h1>
+  </section>
+
+  <section class='reveal mt-6 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50'>
     {
       articles.map(({ fields: article, sys }) => {
         return (
-          <article class='transtion rounded-md py-3'>
-            <a href={`/articles/${article.slug}`}>
-              <h2 class='dark:text-primary-light mb-1 text-2xl'>
+          <article class='border-b border-white/10 p-5 last:border-b-0'>
+            <a href={`/articles/${article.slug}`} class='group block'>
+              <h2 class='text-xl font-semibold text-slate-100 transition group-hover:text-orange-300 md:text-2xl'>
                 {article.title}
               </h2>
             </a>
-            <p class='line-clamp-3 md:line-clamp-4 mb-2 dark:text-gray-400'>
+            <p class='mt-2 line-clamp-3 text-sm leading-relaxed text-slate-200 md:line-clamp-2'>
               {article.excerpt}
             </p>
-            <div class='flex items-center space-x-1 text-[0.6rem] text-stone-200'>
-              <p>
+            <div class='mt-3 flex items-center gap-2 text-xs text-slate-400'>
+              <span>
                 {Intl.DateTimeFormat('en-US', {
                   dateStyle: 'medium'
                 }).format(new Date(sys.createdAt))}
-              </p>
-              <svg height='8' width='8' class='fill-current'>
-                <circle cx='4' cy='4' r='2' />
-              </svg>
-              <p>{article.readTime} min read</p>
+              </span>
+              <span aria-hidden='true'>•</span>
+              <span>{article.readTime} min read</span>
             </div>
           </article>
         );
       })
     }
-  </div>
+  </section>
 </BaseLayout>

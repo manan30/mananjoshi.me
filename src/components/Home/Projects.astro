@@ -68,7 +68,7 @@ const getPrimaryAction = (project: {
 ---
 
 <SectionHeader title='Featured Projects' link='projects' />
-<div class='mt-5 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50'>
+<div class='mt-4 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50'>
   {
     projectsWithMeta.map(({ project: { fields: project }, githubMeta }, index) => {
       const links = getLinks({
@@ -80,19 +80,19 @@ const getPrimaryAction = (project: {
       const primaryAction = getPrimaryAction(project);
 
       return (
-        <article class='grid gap-3 border-b border-white/10 p-4 last:border-b-0 sm:grid-cols-[auto,1fr,auto] sm:items-start sm:gap-4 sm:p-5'>
+        <article class='grid gap-2.5 border-b border-white/10 p-3.5 last:border-b-0 sm:grid-cols-[auto,1fr,auto] sm:items-start sm:gap-4 sm:p-5'>
           <p class='pt-1 text-xs font-semibold uppercase tracking-[0.2em] text-orange-300'>
             {formatRank(index + 1)}
           </p>
 
           <div>
             <div class='flex items-center gap-2'>
-              <h4 class='text-base font-semibold text-slate-100 md:text-lg'>
+              <h4 class='text-[0.98rem] font-semibold text-slate-100 md:text-lg'>
                 {project.title}
               </h4>
             </div>
 
-            <p class='mt-1 line-clamp-2 text-sm text-slate-300'>
+            <p class='mt-1 line-clamp-2 text-[0.84rem] text-slate-300 sm:text-sm'>
               {project.description}
             </p>
 
@@ -114,7 +114,7 @@ const getPrimaryAction = (project: {
             }
           </div>
 
-          <div class='flex items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-start'>
+            <div class='flex items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-start'>
             {primaryAction ? (
               <a
                 href={primaryAction.href}

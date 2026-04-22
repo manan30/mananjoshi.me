@@ -3,11 +3,59 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    @apply bg-slate-950 text-slate-100;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply tracking-tight;
+  }
+
   pre code {
     background-color: transparent !important;
   }
 
   a {
-    @apply focus:outline-none focus:ring focus:ring-orange-500 focus:ring-offset-1 focus:ring-offset-gray-900;
+    @apply focus:outline-none focus:ring focus:ring-orange-500 focus:ring-offset-1 focus:ring-offset-slate-900;
+  }
+}
+
+@layer utilities {
+  .reveal {
+    animation: reveal-up 420ms ease-out both;
+  }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

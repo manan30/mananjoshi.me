@@ -10,7 +10,7 @@ function Menu({ url }: { url?: URL }) {
 		<>
 			<div ref={ref}></div>
 			<button
-				className="ml-auto block focus:outline-none focus:ring focus:ring-orange-500 focus:ring-offset-1 focus:ring-offset-gray-900 md:hidden"
+				className="block rounded-md border border-white/15 p-1.5 text-slate-100 focus:outline-none focus:ring focus:ring-orange-500 focus:ring-offset-1 focus:ring-offset-slate-900 md:hidden"
 				onClick={() => setIsOpen(true)}
 			>
 				<svg
@@ -50,7 +50,7 @@ function Menu({ url }: { url?: URL }) {
 						leaveFrom="opacity-100"
 						leaveTo="opacity-0"
 					>
-						<div className="fixed inset-0 bg-black bg-opacity-25" />
+						<div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
 					</Transition.Child>
 
 					<div className="fixed inset-0 overflow-y-auto">
@@ -64,16 +64,17 @@ function Menu({ url }: { url?: URL }) {
 								leaveFrom="opacity-100 translate-x-0"
 								leaveTo="opacity-0 translate-x-8"
 							>
-								<Dialog.Panel className="w-60 transform overflow-hidden bg-primary-dark p-6 text-left align-middle shadow-xl shadow-orange-400 transition-all">
-									<nav className="text-primary flex flex-col items-start space-y-4 text-lg transition-colors delay-75 ease-in-out">
+								<Dialog.Panel className="w-64 transform overflow-hidden rounded-l-2xl border-l border-white/10 bg-slate-900 p-6 text-left align-middle shadow-xl shadow-black/40 transition-all">
+									<nav className="flex flex-col items-start space-y-2 text-base transition-colors">
 										{links(url ?? new URL(window.location.href)).map((link) => (
 											<a
 												key={link.text}
-												className={`hover:text-orange-600 ${
+												className={`w-full rounded-lg px-3 py-2 transition ${
 													link.highlighted
-														? "font-semibold dark:text-primary-light"
-														: "font-normal dark:text-slate-400"
+														? "bg-white/10 font-medium text-slate-100"
+														: "font-normal text-slate-300 hover:bg-white/5 hover:text-orange-300"
 												}`}
+												aria-current={link.highlighted ? "page" : undefined}
 												href={link.href}
 											>
 												{link.text}

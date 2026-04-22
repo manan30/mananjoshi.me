@@ -6,20 +6,23 @@ const { url } = Astro;
 const links = Links(url);
 ---
 
-<header
-  class='w-full font-normal flex items-center pt-6 pb-4 min-h-[5rem] md:min-h-0'
->
+<header class='sticky top-0 z-20 -mx-4 border-b border-white/10 bg-slate-950/80 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8'>
+  <div class='mx-auto flex w-full items-center lg:max-w-5xl'>
+    <a href='/' class='text-xs font-semibold tracking-[0.14em] text-slate-100 sm:text-sm sm:tracking-wide'>
+      Manan Joshi
+    </a>
   <nav
-    class='md:flex md:items-center space-x-4 text-lg text-primary transition-colors delay-75 ease-in-out hidden'
+    class='ml-8 hidden items-center space-x-2 md:flex'
   >
     {
       links.map((link) => (
         <a
-          class={`hover:text-orange-600 ${
+          class={`rounded-full px-3 py-1.5 text-sm transition ${
             link.highlighted
-              ? 'dark:text-primary-light font-semibold'
-              : 'font-normal dark:text-slate-400'
+              ? 'bg-white/10 font-medium text-slate-100'
+              : 'text-slate-400 hover:bg-white/5 hover:text-orange-300'
           }`}
+          aria-current={link.highlighted ? 'page' : undefined}
           href={link.href}
         >
           {link.text}
@@ -27,5 +30,8 @@ const links = Links(url);
       ))
     }
   </nav>
-  <Menu url={url} client:only='react' />
+    <div class='ml-auto'>
+      <Menu url={url} client:only='react' />
+    </div>
+  </div>
 </header>
