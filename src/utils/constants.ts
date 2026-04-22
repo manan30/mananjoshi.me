@@ -11,12 +11,12 @@ export const links = (url: URL) => [
 		highlighted: url.pathname.includes("/articles"),
 	},
 	{
+		text: "Projects",
+		href: "/projects",
+		highlighted: url.pathname.includes("/projects"),
+	},
+	{
 		text: "Resume",
 		href: "/resume.pdf",
 	},
-	// {
-	//   text: 'Projects',
-	//   href: '/projects',
-	//   highlighted: url.pathname.includes('/projects')
-	// }
 ];

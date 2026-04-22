@@ -4,10 +4,16 @@ import GithubIcon from "../../assets/svg/github.astro";
 import LinkIcon from "../../assets/svg/link.astro";
 import NPMIcon from "../../assets/svg/npm.astro";
 import { getProjectsData } from "../../services/contentful";
-import Card from "./Card.astro";
+import { getGithubMetaByRepoUrl } from "../../services/github/githubMeta";
 import SectionHeader from "./SectionHeader.astro";
 
-const projectsData = await getProjectsData();
+const projectsData = await getProjectsData({ limit: 6 });
+const projectsWithMeta = await Promise.all(
+	projectsData.map(async (project) => ({
+		project,
+		githubMeta: await getGithubMetaByRepoUrl(project.fields.githubURL),
+	})),
+);
 
 const iconMappings = {
 	githubURL: GithubIcon,
@@ -22,44 +28,115 @@ const getLinks = (links: { [key in keyof typeof iconMappings]?: string }) => {
 			if (value)
 				return {
 					Icon: iconMappings[key as keyof typeof iconMappings],
+					label: key,
 					link: value,
 				};
 		})
 		.filter(Boolean) as {
 		Icon: (props: Record<string, unknown>) => unknown;
+		label: string;
 		link: string;
 	}[];
 };
+
+const formatRank = (rank: number) => `#${String(rank).padStart(2, "0")}`;
+
+const getPrimaryAction = (project: {
+	deploymentURL?: string;
+	packageURL?: string;
+	githubURL?: string;
+	blogURL?: string;
+}) => {
+	if (project.deploymentURL) {
+		return { label: "Live demo", href: project.deploymentURL };
+	}
+
+	if (project.packageURL) {
+		return { label: "View package", href: project.packageURL };
+	}
+
+	if (project.githubURL) {
+		return { label: "View repo", href: project.githubURL };
+	}
+
+	if (project.blogURL) {
+		return { label: "Read write-up", href: project.blogURL };
+	}
+
+	return null;
+};
 ---
 
-<SectionHeader title='Recent Projects' link='projects' hideViewAll />
-<div class='grid md:grid-cols-3 gap-6 mt-4'>
+<SectionHeader title='Featured Projects' link='projects' />
+<div class='mt-5 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50'>
   {
-    projectsData.map(({ fields: project }) => {
+    projectsWithMeta.map(({ project: { fields: project }, githubMeta }, index) => {
       const links = getLinks({
         githubURL: project.githubURL,
         blogURL: project.blogURL,
         deploymentURL: project.deploymentURL,
         packageURL: project.packageURL
       });
+      const primaryAction = getPrimaryAction(project);
 
       return (
-        <Card>
-          <h4 class='text-primary-light text-lg md:text-xl'>{project.title}</h4>
-          <p class='lg:line-clamp-none line-clamp-4 mt-2 flex-1 text-xs text-slate-400 md:mt-4 md:text-sm'>
-            {project.description}
+        <article class='grid gap-3 border-b border-white/10 p-4 last:border-b-0 sm:grid-cols-[auto,1fr,auto] sm:items-start sm:gap-4 sm:p-5'>
+          <p class='pt-1 text-xs font-semibold uppercase tracking-[0.2em] text-orange-300'>
+            {formatRank(index + 1)}
           </p>
-          <div class='mt-auto flex w-full justify-end space-x-2'>
-            {links.map(({ Icon, link }) => (
-              <a
-                class='text-primary-light h-4 w-4 hover:text-orange-600'
-                href={link}
-              >
-                <Icon />
-              </a>
-            ))}
+
+          <div>
+            <div class='flex items-center gap-2'>
+              <h4 class='text-base font-semibold text-slate-100 md:text-lg'>
+                {project.title}
+              </h4>
+            </div>
+
+            <p class='mt-1 line-clamp-2 text-sm text-slate-300'>
+              {project.description}
+            </p>
+
+            {
+              githubMeta ? (
+                <div class='mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400'>
+                  {githubMeta.stars > 0 ? <span>{githubMeta.stars} stars</span> : null}
+                  {githubMeta.language ? <span>{githubMeta.language}</span> : null}
+                  <span>
+                    Updated {
+                      Intl.DateTimeFormat("en-US", {
+                        month: "short",
+                        year: "numeric",
+                      }).format(new Date(githubMeta.updatedAt))
+                    }
+                  </span>
+                </div>
+              ) : null
+            }
           </div>
-        </Card>
+
+          <div class='flex items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-start'>
+            {primaryAction ? (
+              <a
+                href={primaryAction.href}
+                class='text-xs font-medium text-orange-200 transition hover:text-orange-100 sm:mt-1'
+              >
+                {primaryAction.label}
+              </a>
+            ) : <span />
+            }
+            <div class='flex items-center gap-2 sm:mt-2'>
+              {links.map(({ Icon, link, label }) => (
+                <a
+                  class='text-primary-light h-4 w-4 rounded-sm hover:text-orange-400'
+                  href={link}
+                  aria-label={label}
+                >
+                  <Icon />
+                </a>
+              ))}
+            </div>
+          </div>
+        </article>
       );
     })
   }

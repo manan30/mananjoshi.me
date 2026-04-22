@@ -1,0 +1,337 @@
+---
+import BlogIcon from "../assets/svg/blog.astro";
+import GithubIcon from "../assets/svg/github.astro";
+import LinkIcon from "../assets/svg/link.astro";
+import NPMIcon from "../assets/svg/npm.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getProjectsData } from "../services/contentful";
+import { getGithubMetaByRepoUrl } from "../services/github/githubMeta";
+
+const projectsData = await getProjectsData();
+const projectsWithMeta = await Promise.all(
+	projectsData.map(async (project) => ({
+		project,
+		githubMeta: await getGithubMetaByRepoUrl(project.fields.githubURL),
+	})),
+);
+
+const topProjects = projectsWithMeta.slice(0, 3);
+const remainingProjects = projectsWithMeta.slice(3);
+
+const iconMappings = {
+	githubURL: GithubIcon,
+	blogURL: BlogIcon,
+	deploymentURL: LinkIcon,
+	packageURL: NPMIcon,
+};
+
+const getLinks = (links: { [key in keyof typeof iconMappings]?: string }) => {
+	return Object.entries(links)
+		.map(([key, value]) => {
+			if (value)
+				return {
+					Icon: iconMappings[key as keyof typeof iconMappings],
+					label: key,
+					link: value,
+				};
+		})
+		.filter(Boolean) as {
+		Icon: (props: Record<string, unknown>) => unknown;
+		label: string;
+		link: string;
+	}[];
+};
+
+const formatRank = (rank: number) => `#${String(rank).padStart(2, "0")}`;
+
+const categoryByTitle = new Map<string, string>([
+	["adflare.ai", "AI Product"],
+	["pricingch.art", "SaaS Tool"],
+	["billiards", "3D/WebGL"],
+	["svelte trivia", "Frontend App"],
+	["comed hourly pricing", "Automation"],
+	["elegantui", "UI Library"],
+	["paused", "NPM Package"],
+	["unik id", "NPM Package"],
+	["personal blog", "Publishing"],
+]);
+
+const getCategory = (title: string, isPackage?: boolean) => {
+	if (isPackage) {
+		return "NPM Package";
+	}
+
+	return categoryByTitle.get(title.trim().toLowerCase()) ?? "Project";
+};
+
+const getPrimaryAction = (project: {
+	deploymentURL?: string;
+	packageURL?: string;
+	githubURL?: string;
+	blogURL?: string;
+}) => {
+	if (project.deploymentURL) {
+		return { label: "Live demo", href: project.deploymentURL };
+	}
+
+	if (project.packageURL) {
+		return { label: "View package", href: project.packageURL };
+	}
+
+	if (project.githubURL) {
+		return { label: "View repo", href: project.githubURL };
+	}
+
+	if (project.blogURL) {
+		return { label: "Read write-up", href: project.blogURL };
+	}
+
+	return null;
+};
+---
+
+<BaseLayout title='Projects'>
+  <section class='mt-6 border-b border-white/10 pb-6'>
+    <p class='text-xs font-semibold uppercase tracking-[0.24em] text-orange-300'>
+      Work
+    </p>
+    <h1 class='mt-3 text-4xl font-semibold tracking-tight text-slate-100 md:text-6xl'>
+      Projects
+    </h1>
+  </section>
+
+  {
+    topProjects[0] ? (
+      <section class='mt-8'>
+        {(() => {
+          const project = topProjects[0].project.fields;
+          const githubMeta = topProjects[0].githubMeta;
+          const links = getLinks({
+            githubURL: project.githubURL,
+            blogURL: project.blogURL,
+            deploymentURL: project.deploymentURL,
+            packageURL: project.packageURL,
+          });
+          const primaryAction = getPrimaryAction(project);
+
+          return (
+            <article class='relative overflow-hidden rounded-3xl border border-orange-300/20 bg-gradient-to-br from-slate-900 to-slate-800 p-6 md:p-8'>
+              <div class='absolute -right-12 -top-12 h-36 w-36 rounded-full bg-orange-500/20 blur-3xl'></div>
+              <div class='relative flex h-full flex-col'>
+                <div class='flex items-start justify-between gap-3'>
+                  <div>
+                    <p class='text-xs font-semibold uppercase tracking-[0.2em] text-orange-300'>
+                      {formatRank(1)}
+                    </p>
+                    <h2 class='mt-2 text-3xl font-semibold text-slate-100'>{project.title}</h2>
+                  </div>
+                  <span class='rounded-full border border-orange-300/40 bg-orange-500/10 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-wide text-orange-200'>
+                    {getCategory(project.title, project.isPackage)}
+                  </span>
+                </div>
+
+                <p class='mt-4 max-w-3xl flex-1 text-base leading-relaxed text-slate-300'>
+                  {project.description}
+                </p>
+
+                {
+                  githubMeta ? (
+                    <div class='mt-4 flex items-center gap-3 text-xs text-slate-400'>
+                      <span>{githubMeta.stars} stars</span>
+                      {githubMeta.language ? <span>{githubMeta.language}</span> : null}
+                      <span>
+                        Updated {
+                          Intl.DateTimeFormat("en-US", {
+                            month: "short",
+                            year: "numeric",
+                          }).format(new Date(githubMeta.updatedAt))
+                        }
+                      </span>
+                    </div>
+                  ) : null
+                }
+
+                <div class='mt-5 flex items-center justify-between border-t border-white/10 pt-4'>
+                  {primaryAction ? (
+                    <a
+                      href={primaryAction.href}
+                      class='text-sm font-medium text-orange-200 transition hover:text-orange-100'
+                    >
+                      {primaryAction.label}
+                    </a>
+                  ) : (
+                    <span class='text-sm text-slate-500'>No public link</span>
+                  )}
+
+                  <div class='flex items-center space-x-2'>
+                    {links.map(({ Icon, link, label }) => (
+                      <a
+                        class='h-4 w-4 rounded-sm text-slate-100 transition hover:text-orange-400'
+                        href={link}
+                        aria-label={label}
+                      >
+                        <Icon />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </article>
+          );
+        })()}
+      </section>
+    ) : null
+  }
+
+  <section class='mt-4 grid gap-4 md:grid-cols-1 lg:grid-cols-2'>
+    {
+      topProjects.slice(1).map(({ project: { fields: project }, githubMeta }, index) => {
+        const links = getLinks({
+          githubURL: project.githubURL,
+          blogURL: project.blogURL,
+          deploymentURL: project.deploymentURL,
+          packageURL: project.packageURL,
+        });
+        const primaryAction = getPrimaryAction(project);
+
+        return (
+          <article class='relative overflow-hidden rounded-3xl border border-orange-300/20 bg-gradient-to-br from-slate-900 to-slate-800 p-6 md:p-7'>
+            <div class='absolute -right-8 -top-8 h-28 w-28 rounded-full bg-orange-500/20 blur-2xl'></div>
+            <div class='relative flex h-full flex-col'>
+              <div class='flex items-start justify-between gap-3'>
+                <div>
+                  <p class='text-xs font-semibold uppercase tracking-[0.2em] text-orange-300'>
+                    {formatRank(index + 2)}
+                  </p>
+                  <h2 class='mt-2 text-2xl font-semibold text-slate-100'>{project.title}</h2>
+                </div>
+                <span class='rounded-full border border-orange-300/40 bg-orange-500/10 px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-wide text-orange-200'>
+                  {getCategory(project.title, project.isPackage)}
+                </span>
+              </div>
+
+              <p class='mt-4 flex-1 text-sm leading-relaxed text-slate-300'>{project.description}</p>
+
+              {
+                githubMeta ? (
+                  <div class='mt-4 flex items-center gap-3 text-xs text-slate-400'>
+                    <span>{githubMeta.stars} stars</span>
+                    {githubMeta.language ? <span>{githubMeta.language}</span> : null}
+                    <span>
+                      Updated {
+                        Intl.DateTimeFormat("en-US", {
+                          month: "short",
+                          year: "numeric",
+                        }).format(new Date(githubMeta.updatedAt))
+                      }
+                    </span>
+                  </div>
+                ) : null
+              }
+
+              <div class='mt-5 flex items-center justify-between border-t border-white/10 pt-4'>
+                {primaryAction ? (
+                  <a
+                    href={primaryAction.href}
+                    class='text-sm font-medium text-orange-200 transition hover:text-orange-100'
+                  >
+                    {primaryAction.label}
+                  </a>
+                ) : (
+                  <span class='text-sm text-slate-500'>No public link</span>
+                )}
+
+                <div class='flex items-center space-x-2'>
+                  {links.map(({ Icon, link, label }) => (
+                    <a
+                      class='h-4 w-4 rounded-sm text-slate-100 transition hover:text-orange-400'
+                      href={link}
+                      aria-label={label}
+                    >
+                      <Icon />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </article>
+        );
+      })
+    }
+  </section>
+
+  <section class='mt-8'>
+    <ol class='divide-y divide-white/10'>
+    {
+      remainingProjects.map(({ project: { fields: project }, githubMeta }, index) => {
+        const links = getLinks({
+          githubURL: project.githubURL,
+          blogURL: project.blogURL,
+          deploymentURL: project.deploymentURL,
+          packageURL: project.packageURL,
+        });
+        const primaryAction = getPrimaryAction(project);
+
+        return (
+          <li class='py-5'>
+            <div class='mb-3 flex items-start justify-between gap-3'>
+              <div>
+                <p class='text-xs font-semibold uppercase tracking-[0.2em] text-orange-300'>
+                  {formatRank(index + 4)}
+                </p>
+                <h2 class='mt-1 text-xl font-semibold text-slate-100 md:text-2xl'>{project.title}</h2>
+              </div>
+              <span class='rounded-full border border-orange-300/40 bg-orange-500/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-orange-200'>
+                {getCategory(project.title, project.isPackage)}
+              </span>
+            </div>
+
+            <p class='max-w-3xl text-sm text-slate-300'>{project.description}</p>
+
+            {
+              githubMeta ? (
+                <div class='mt-3 flex items-center gap-3 text-xs text-slate-400'>
+                  <span>{githubMeta.stars} stars</span>
+                  {githubMeta.language ? <span>{githubMeta.language}</span> : null}
+                  <span>
+                    Updated {
+                      Intl.DateTimeFormat("en-US", {
+                        month: "short",
+                        year: "numeric",
+                      }).format(new Date(githubMeta.updatedAt))
+                    }
+                  </span>
+                </div>
+              ) : null
+            }
+
+            <div class='mt-4 flex w-full items-center justify-between'>
+              {primaryAction ? (
+                <a
+                  href={primaryAction.href}
+                  class='text-xs font-medium text-orange-200 transition hover:text-orange-100'
+                >
+                  {primaryAction.label}
+                </a>
+              ) : (
+                <span class='text-xs text-slate-500'>No public link</span>
+              )}
+              <div class='flex items-center space-x-2'>
+                {links.map(({ Icon, link, label }) => (
+                  <a
+                    class='h-4 w-4 rounded-sm text-slate-100 transition hover:text-orange-400'
+                    href={link}
+                    aria-label={label}
+                  >
+                    <Icon />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </li>
+        );
+      })
+    }
+    </ol>
+  </section>
+</BaseLayout>
